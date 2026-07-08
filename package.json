@@ -7,7 +7,7 @@
     "google-keep",
     "n8n"
   ],
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/bencouture/n8n-nodes-google-keep",
   "repository": {
     "type": "git",
