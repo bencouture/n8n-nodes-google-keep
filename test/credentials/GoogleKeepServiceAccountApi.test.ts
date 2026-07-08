@@ -57,6 +57,33 @@ describe('GoogleKeepServiceAccountApi', () => {
 		).rejects.toThrow(/did not return an access token/);
 	});
 
+	it('reconstructs a valid multi-line PEM when newlines were stripped (e.g. pasted into a masked single-line field)', async () => {
+		getAccessToken.mockResolvedValue({ token: 'token-b' });
+		// A base64 body long enough to span multiple 64-char PEM lines once rewrapped.
+		const base64Body = 'a'.repeat(130);
+		const flattenedCredentials: ICredentialDataDecryptedObject = {
+			...credentials,
+			serviceAccountEmail: 'flattened-sa@my-project.iam.gserviceaccount.com',
+			privateKey: `-----BEGIN PRIVATE KEY-----${base64Body}-----END PRIVATE KEY-----`,
+		};
+
+		const credentialType = new GoogleKeepServiceAccountApi();
+		await credentialType.authenticate!(flattenedCredentials, {
+			url: 'https://keep.googleapis.com/v1/notes',
+		});
+
+		const passedKey = jwtConstructor.mock.calls[jwtConstructor.mock.calls.length - 1][0].key as string;
+		expect(passedKey).toBe(
+			[
+				'-----BEGIN PRIVATE KEY-----',
+				base64Body.slice(0, 64),
+				base64Body.slice(64, 128),
+				base64Body.slice(128),
+				'-----END PRIVATE KEY-----',
+			].join('\n'),
+		);
+	});
+
 	it('reuses one JWT client per service account instead of re-authenticating every request', async () => {
 		getAccessToken.mockResolvedValue({ token: 'token-a' });
 		const uniqueCredentials: ICredentialDataDecryptedObject = {
