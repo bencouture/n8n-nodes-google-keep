@@ -7,6 +7,16 @@ the operations the real Keep API supports: get/list, create, and delete
 notes; add/list/remove note collaborators; and download a note's attachment.
 There is no update/edit operation because the underlying API doesn't have one.
 
+> [!IMPORTANT]
+> **This only works with a paid Google Workspace account.** The Keep API is
+> not available to personal/consumer Google accounts (`@gmail.com`) at all —
+> there is no setup, workaround, or credential type that makes it work on a
+> free consumer account. You need:
+> - A **Google Workspace** subscription (Business/Enterprise) for the account whose notes you want to access, and
+> - A **Workspace admin** (or an account with delegated admin privileges) who can grant domain-wide delegation — a regular Workspace user without admin rights can't complete setup on their own.
+>
+> If you're trying to use this with a personal Gmail account, stop here — it will not work no matter how the credential is configured.
+
 ## Credential setup
 
 Google Keep's API only supports access via a Google Workspace **service
