@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-08
+
 ### Changed
 
+- Relicensed from MIT to GPL-3.0-or-later.
 - Replaced the monochrome node icon with Google's official colored "Google
   Keep icon (2015-2020)" (yellow rounded square, bulb outline).
 - Expanded the README credential setup section: the Service Account vs.
@@ -19,12 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Workspace account, never a personal/consumer Google account.
 - Marked the credential-type comparison table with a checkmark/X on the
   working vs. non-working column.
-
-## [0.1.1] - 2026-07-08
-
-### Changed
-
-- Relicensed from MIT to GPL-3.0-or-later.
 
 ### Fixed
 
