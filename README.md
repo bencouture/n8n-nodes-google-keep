@@ -25,7 +25,7 @@ flow, unlike n8n's other Google nodes. This means you need a **Service
 Account**, not an **OAuth 2.0 Client ID** — those are two different objects
 in Google Cloud Console and only one of them works here:
 
-| | Service Account | OAuth 2.0 Client ID |
+| | Service Account ✅ | OAuth 2.0 Client ID ❌ |
 |---|---|---|
 | Where | IAM & Admin → Service Accounts | APIs & Services → Credentials → "+ Create Credentials" → OAuth client ID |
 | Has a private key? | Yes (downloadable JSON) | No — only `client_id` + `client_secret` |

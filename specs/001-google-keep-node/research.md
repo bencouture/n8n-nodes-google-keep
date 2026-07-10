@@ -48,8 +48,10 @@ integrates — this is the established convention, not a special case.
 **Alternatives considered**: generic note/checklist icon — rejected, breaks
 visual parity with sibling Google nodes and doesn't satisfy the request.
 
-**Follow-up**: source the SVG from Google's official brand/product icon
-assets (not a screenshot or third-party recreation) before publishing.
+**Resolved**: sourced from Wikimedia Commons' "Google Keep icon
+(2015-2020).svg" (created by Google LLC, SVG conversion by CoreyVidal),
+the official colored yellow-bulb app icon — not the monochrome
+brand-mark glyph used in the first draft, and not a recreation.
 
 ## Testing framework
 
