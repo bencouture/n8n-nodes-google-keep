@@ -6,7 +6,7 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { NodeConnectionType, NodeOperationError } from 'n8n-workflow';
+import { NodeApiError, NodeConnectionType, NodeOperationError } from 'n8n-workflow';
 
 import { noteFields, noteOperations } from './descriptions/NoteDescription';
 import { permissionFields, permissionOperations } from './descriptions/PermissionDescription';
@@ -25,10 +25,9 @@ export class GoogleKeep implements INodeType {
 		defaults: {
 			name: 'Google Keep',
 		},
-		// eslint-disable-next-line n8n-nodes-base/node-class-description-inputs-wrong-regular-node -- rule expects a 'main' string literal; current n8n-workflow types require the NodeConnectionType enum member
 		inputs: [NodeConnectionType.Main],
-		// eslint-disable-next-line n8n-nodes-base/node-class-description-outputs-wrong -- same as inputs above
 		outputs: [NodeConnectionType.Main],
+		usableAsTool: true,
 		credentials: [
 			{
 				name: 'googleKeepServiceAccountApi',
@@ -42,9 +41,9 @@ export class GoogleKeep implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
+					{ name: 'Attachment', value: 'attachment' },
 					{ name: 'Note', value: 'note' },
 					{ name: 'Permission', value: 'permission' },
-					{ name: 'Attachment', value: 'attachment' },
 				],
 				default: 'note',
 			},
@@ -239,7 +238,11 @@ export class GoogleKeep implements INodeType {
 					});
 					continue;
 				}
-				throw error;
+				if (error instanceof NodeApiError || error instanceof NodeOperationError) {
+					// eslint-disable-next-line @n8n/community-nodes/require-node-api-error -- already the right error type (checked above); wrapping again would lose it
+					throw error;
+				}
+				throw new NodeOperationError(this.getNode(), error as Error, { itemIndex });
 			}
 		}
 

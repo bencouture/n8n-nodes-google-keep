@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Migrated build/lint tooling to [`@n8n/node-cli`](https://www.npmjs.com/package/@n8n/node-cli):
+  replaced `tsc`/`gulpfile.js`/`.eslintrc.js` (ESLint 8 +
+  `eslint-plugin-n8n-nodes-base`) with `n8n-node build`/`n8n-node lint`
+  (ESLint 9 flat config, `@n8n/eslint-plugin-community-nodes`). Added
+  `npm run release` for tag-triggered npm publishing with provenance via
+  `.github/workflows/publish.yml`.
+- Disabled n8n Cloud-verification lint checks (`cloud-support disable`) and
+  turned off the license/dependencies/overrides rules that specifically
+  conflict with this package's deliberate choices (GPL-3.0-or-later,
+  `google-auth-library`, a dev-only `isolated-vm` override) - this node
+  targets self-hosted n8n, not the Cloud verified-node program.
+- Added `usableAsTool: true` and alphabetized the Resource dropdown.
+
+### Fixed
+
+- Re-throwing an already-typed `NodeApiError`/`NodeOperationError` from the
+  main execute loop's catch block now falls back to wrapping genuinely
+  unexpected errors in `NodeOperationError` instead of leaking a raw error.
+
 ## [0.1.2] - 2026-07-09
 
 ### Changed

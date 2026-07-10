@@ -88,10 +88,15 @@ for a step-by-step validation walkthrough against a real Keep account.
 
 ```bash
 npm install
-npm run build   # compiles TypeScript and copies icon assets to dist/
+npm run build   # n8n-node build: compiles TypeScript and copies icon assets to dist/
 npm test        # runs the Jest suite
-npm run lint    # eslint-plugin-n8n-nodes-base
+npm run lint    # n8n-node lint (@n8n/eslint-plugin-community-nodes)
 ```
+
+Releasing (maintainers): `npm run release` runs [`@n8n/node-cli`](https://www.npmjs.com/package/@n8n/node-cli)'s
+interactive release flow locally (version bump, changelog, commit, tag, push,
+GitHub release), and [`.github/workflows/publish.yml`](.github/workflows/publish.yml)
+publishes to npm with provenance when that tag is pushed.
 
 ## License
 

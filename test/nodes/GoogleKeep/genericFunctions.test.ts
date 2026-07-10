@@ -1,3 +1,4 @@
+import type { IExecuteFunctions } from 'n8n-workflow';
 import { NodeApiError, NodeOperationError } from 'n8n-workflow';
 import {
 	googleKeepApiRequest,
@@ -25,7 +26,11 @@ describe('googleKeepApiRequest', () => {
 	it('calls the Keep API through the credential authentication helper', async () => {
 		const { context, httpRequestWithAuthentication } = createContext([{ name: 'notes/123' }]);
 
-		const result = await googleKeepApiRequest.call(context as any, 'GET', '/v1/notes/123');
+		const result = await googleKeepApiRequest.call(
+			context as unknown as IExecuteFunctions,
+			'GET',
+			'/v1/notes/123',
+		);
 
 		expect(httpRequestWithAuthentication).toHaveBeenCalledWith(
 			'googleKeepServiceAccountApi',
@@ -46,7 +51,7 @@ describe('googleKeepApiRequestAllItems', () => {
 		]);
 
 		const result = await googleKeepApiRequestAllItems.call(
-			context as any,
+			context as unknown as IExecuteFunctions,
 			'notes',
 			'GET',
 			'/v1/notes',
@@ -65,7 +70,7 @@ describe('googleKeepApiRequestAllItems', () => {
 		]);
 
 		const result = await googleKeepApiRequestAllItems.call(
-			context as any,
+			context as unknown as IExecuteFunctions,
 			'notes',
 			'GET',
 			'/v1/notes',
@@ -83,7 +88,7 @@ describe('googleKeepApiRequestAllItems', () => {
 		const { context } = createContext([{ notes: [] }]);
 
 		const result = await googleKeepApiRequestAllItems.call(
-			context as any,
+			context as unknown as IExecuteFunctions,
 			'notes',
 			'GET',
 			'/v1/notes',
@@ -99,7 +104,7 @@ describe('googleKeepApiRequestAllItems', () => {
 		const { context } = createContext([{}]);
 
 		const result = await googleKeepApiRequestAllItems.call(
-			context as any,
+			context as unknown as IExecuteFunctions,
 			'notes',
 			'GET',
 			'/v1/notes',
@@ -126,7 +131,7 @@ describe('googleKeepApiRequest error mapping', () => {
 		const context = createRejectingContext(invalidArgumentError);
 
 		await expect(
-			googleKeepApiRequest.call(context as any, 'POST', '/v1/notes'),
+			googleKeepApiRequest.call(context as unknown as IExecuteFunctions, 'POST', '/v1/notes'),
 		).rejects.toBeInstanceOf(NodeOperationError);
 	});
 
@@ -134,7 +139,7 @@ describe('googleKeepApiRequest error mapping', () => {
 		const context = createRejectingContext(permissionDeniedError);
 
 		await expect(
-			googleKeepApiRequest.call(context as any, 'GET', '/v1/notes/abc123'),
+			googleKeepApiRequest.call(context as unknown as IExecuteFunctions, 'GET', '/v1/notes/abc123'),
 		).rejects.toMatchObject({
 			constructor: NodeApiError,
 			httpCode: '403',
@@ -146,7 +151,7 @@ describe('googleKeepApiRequest error mapping', () => {
 		const context = createRejectingContext(rateLimitedError);
 
 		await expect(
-			googleKeepApiRequest.call(context as any, 'GET', '/v1/notes'),
+			googleKeepApiRequest.call(context as unknown as IExecuteFunctions, 'GET', '/v1/notes'),
 		).rejects.toMatchObject({
 			constructor: NodeApiError,
 			httpCode: '429',
@@ -160,7 +165,7 @@ describe('googleKeepApiRequest error mapping', () => {
 		});
 
 		await expect(
-			googleKeepApiRequest.call(context as any, 'GET', '/v1/notes'),
+			googleKeepApiRequest.call(context as unknown as IExecuteFunctions, 'GET', '/v1/notes'),
 		).rejects.toMatchObject({
 			constructor: NodeApiError,
 			httpCode: '503',
@@ -171,7 +176,7 @@ describe('googleKeepApiRequest error mapping', () => {
 		const context = createRejectingContext({ message: 'ECONNRESET' });
 
 		await expect(
-			googleKeepApiRequest.call(context as any, 'GET', '/v1/notes'),
+			googleKeepApiRequest.call(context as unknown as IExecuteFunctions, 'GET', '/v1/notes'),
 		).rejects.toMatchObject({
 			constructor: NodeApiError,
 			httpCode: null,
