@@ -18,7 +18,7 @@
     "email": "bencouture@protonmail.com"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "main": "dist/index.js",
   "scripts": {
@@ -59,6 +59,6 @@
     "n8n-workflow": "*"
   },
   "overrides": {
-    "isolated-vm": "5.0.4"
+    "isolated-vm": "6.1.2"
   }
 }
